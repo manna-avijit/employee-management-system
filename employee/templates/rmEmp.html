@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Delete Details of Employee</title>
+{% endblock title %}
+
+{% block main %}
+<style>
+  .search-form {
+    max-width: 600px; /* Limit the width of the search form */
+    margin: 0 auto; /* Center the form horizontally */
+  }
+
+  .search-form .form-control {
+    padding: 8px;
+    font-size: 16px;
+  }
+
+  .search-form .btn-search {
+    padding: 8px 20px;
+  }
+
+  .table-container {
+    max-width: 1200px; /* Limit the width of the table */
+    margin: 20px auto; /* Center the table horizontally */
+  }
+
+  .table-container table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+  }
+
+  .table-container th {
+    background-color: #343a40;
+    color: #fff;
+  }
+
+  .table-container tr:nth-child(even) {
+    background-color: #f8f9fa;
+  }
+
+  .table-container tr:hover {
+    background-color: #e9ecef;
+  }
+
+  .edit-btn {
+    padding: 6px 12px;
+  }
+</style>
+
+<div class="d-flex justify-content-center">
+    <h3 class="my-3 p-2 bg-dark text-light w-75 text-center rounded-1">Edit Or Delete Employee Details</h3>
+</div>
+
+<div class="search-form">
+  <form action="{% url 'rm' %}" method="POST" class="py-2">
+    {% csrf_token %}
+    <div class="input-group">
+      <input class="form-control border border-dark fw-bold" type="text" name="empid" placeholder="Search by Emp ID, First or Last Name, Department" style="text-transform:capitalize">
+      <button class="btn btn-dark btn-search">Search</button>
+    </div>
+  </form>
+</div>
+
+<div class="container table-container">
+  {% if data %}
+    <table class="table table-striped text-center table-bordered border-dark">
+        <thead class="table-dark">
+            <tr>
+                <th>Sr no.</th>
+                <th>Emp ID</th>
+                <th>Name</th>
+                <th>Salary</th>
+                <th>Department</th>          
+                <th>Role</th> 
+                <th>Location</th> 
+                <th>Phone</th>
+                <th>Joining Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dt in data %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td class="fw-bold">{{ dt.id }}</td>
+                <td class="fw-bold">{{ dt.firstName|capfirst }} {{ dt.lastName|capfirst }}</td>
+                <td>{{ dt.salary }}</td>
+                <td>{{ dt.dept.name }}</td>
+                <td>{{ dt.role.name }}</td>
+                <td>{{ dt.dept.location }}</td>
+                <td>{{ dt.phone }}</td>
+                <td>{{ dt.hireDate }}</td>
+                <td>
+                  <a href="{% url 'upEmp' dt.id 0 %}" data.id>
+                    <button class="btn btn-sm btn-dark edit-btn"><i class="bi bi-pencil-square"></i> Edit</button>
+                  </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  
+  {% else %}
+    <div class="text-center">
+      <h3>No data available!</h3>
+      <img src="{% static 'images/notFound.jpg' %}" class="rounded img-fluid h-auto w-25" alt="Not found image"> 
+    </div>
+  {% endif %}
+</div>
+{% endblock main %}

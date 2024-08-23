@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>View Details of all Employees</title>
+{% endblock title %}
+
+{% block main %}
+<style>
+  .table-container {
+    max-width: 1000px; 
+    margin: 0 auto; 
+  }
+
+  .table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  .table-container th,
+  .table-container td {
+    padding: 10px;
+    border: 1px solid #dee2e6; 
+  }
+
+  .table-container th {
+    background-color: #343a40; 
+    color: #fff; 
+  }
+
+  .table-container tr:nth-child(even) {
+    background-color: #f8f9fa; 
+  }
+
+  .table-container tr:hover {
+    background-color: #e9ecef; 
+  }
+</style>
+
+<div class="d-flex justify-content-center">
+    <h3 class="my-3 p-2 bg-dark text-light w-75 text-center rounded-1">All Employee Details</h3>
+</div>
+
+<div class="container table-container">
+    <table class="table table-striped text-center table-bordered border-dark">
+        <thead class="table-dark">
+            <tr>
+                <th>Serial No.</th>
+                <th>Employee ID</th>
+                <th>Name</th>
+                <th>Salary</th>
+                <th>Department</th>
+                <th>Role</th>
+                <th>Location</th>           
+                <th>Phone</th>
+                <th>Joining Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dt in data %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td class="fw-bold">{{ dt.id }}</td>
+                <td class="fw-bold">{{ dt.firstName|capfirst }} {{ dt.lastName|capfirst }}</td>
+                <td>{{ dt.salary }}</td>
+                <td>{{ dt.dept.name }}</td>
+                <td>{{ dt.role.name }}</td>
+                <td>{{ dt.dept.location }}</td>
+                <td>{{ dt.phone }}</td>
+                <td>{{ dt.hireDate }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock main %}
